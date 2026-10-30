@@ -205,18 +205,30 @@ et le traitement continue dans `ctx.waitUntil`.
 - **Fuite de secrets** : aucune clé dans le code, tout en secrets Wrangler ; `.env` non versionné.
 - **Démo isolée** : les conversations de démonstration (`22997000000…`) ne partent jamais sur WhatsApp.
 
-### 7.3 Captures
+### 7.3 Preuve en production (30/10/2026)
+
+Commande réelle **G4U8** (26 500 FCFA) passée sur le Worker déployé :
+
+| Heure (UTC) | Événement |
+|---|---|
+| 08:57:26 | devis créé (1 pagne Uniwax rouge + 2 foulards or, Fidjrossè, EUR) |
+| 08:57:30 | devis envoyé au client, code **G4U8**, total 26 500 FCFA / 40,39 € |
+| 08:58:00 | le client répond `OUI` |
+| 08:58:06 | notification envoyée au WhatsApp de la gérante (`OUI G4U8` / `NON G4U8`) |
+| 08:58:22 | validation gérante → commande confirmée, client prévenu |
+| 08:58:22 | stock décrémenté : PAG-002 12 → 11, ACC-004 20 → 18 |
+
+Captures :
 
 | Étape | Capture |
 |---|---|
-| Devis calculé (articles + livraison + euros) | ![](docs/captures/02-devis.png) |
-| Le client dit OUI → la gérante reçoit la demande | ![](docs/captures/03-attente-gerante.png) |
-| La gérante valide → commande confirmée | ![](docs/captures/04-commande-confirmee.png) |
-| Vue téléphone du client | ![](docs/captures/05-telephone-client.png) |
+| Conversation WhatsApp réelle avec le bot | ![](docs/captures/whatsapp/client-01-conversation.png) |
+| Devis + demande de validation reçue par la gérante | ![](docs/captures/whatsapp/gerante-01-demande-devis.png) |
+| Commande validée et confirmation client | ![](docs/captures/whatsapp/gerante-02-commande-confirmee.png) |
+| Vue d'ensemble de l'interface (client + gérante) | ![](docs/captures/03-attente-gerante.png) |
 
-> Les captures ci-dessus viennent de l'interface de démonstration (même pipeline, même Worker, même Durable
-> Object) pour montrer les deux téléphones côte à côte. Les captures WhatsApp réelles sont ajoutées dans
-> `docs/captures/whatsapp/` dès qu'un second numéro client est connecté.
+> Les deux dernières captures montrent l'interface de démonstration qui reflète le même état que WhatsApp
+> (même Worker, même Durable Object). La première est une vraie conversation WhatsApp avec le numéro de test.
 
 ## 8. Traces
 

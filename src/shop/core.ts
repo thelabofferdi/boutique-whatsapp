@@ -159,6 +159,8 @@ export class ShopCore {
     return {
       product_id: p.id,
       name: p.name,
+      category: p.category,
+      colors: p.colors,
       stock: p.stock,
       reserved: this.reserved(p.id),
       available: this.available(p.id),
