@@ -17,6 +17,25 @@ export type IncomingMessage = {
   rawType: string;
 };
 
+/** Chiffres seuls, sans indicatif de saisie ni zéros de tête (Bénin : 229 + 01 + 8 chiffres). */
+export function phoneDigits(value: string): string {
+  return String(value)
+    .replace(/@.*$/, "")
+    .replace(/\D/g, "")
+    .replace(/^0+/, "");
+}
+
+/** Compare deux numéros quel que soit le format (22949310966 vs 2290149310966 vs +229 49 31 09 66). */
+export function samePhone(a: string, b: string): boolean {
+  const x = phoneDigits(a);
+  const y = phoneDigits(b);
+  if (!x || !y) return false;
+  if (x === y) return true;
+  const tail = 8; // les 8 derniers chiffres suffisent à identifier une ligne béninoise
+  if (x.length >= tail && y.length >= tail) return x.slice(-tail) === y.slice(-tail);
+  return false;
+}
+
 export function parseGreenApi(payload: any, cfg: AppConfig): IncomingMessage | null {
   if (!payload || typeof payload !== "object") return null;
   if (payload.typeWebhook !== "incomingMessageReceived") return null;
@@ -28,22 +47,27 @@ export function parseGreenApi(payload: any, cfg: AppConfig): IncomingMessage | n
   const type = String(data.typeMessage ?? "");
   if (type === "textMessage") text = data.textMessageData?.textMessage ?? "";
   else if (type === "extendedTextMessage") text = data.extendedTextMessageData?.text ?? "";
-  else if (type === "quotedMessage") text = data.quotedMessage?.textMessage ?? "";
+  // Réponse en citation : le texte utile est la RÉPONSE, jamais le message cité (sinon boucle).
+  else if (type === "quotedMessage") text = data.extendedTextMessageData?.text ?? data.textMessageData?.textMessage ?? "";
   else if (type === "buttonsResponseMessage") text = data.buttonsResponseMessage?.selectedButtonId ?? "";
   else if (type === "listResponseMessage") text = data.listResponseMessage?.title ?? "";
   text = String(text || "").trim();
   if (!text) return null;
 
-  const phone = String(sender.sender ?? chatId).replace(/@.*$/, "").replace(/\D/g, "");
-  const managerPhone = cfg.managerPhone.replace(/\D/g, "");
+  const phone = String(sender.sender ?? chatId);
+  const fromManager =
+    samePhone(phone, cfg.managerPhone) ||
+    samePhone(chatId, cfg.managerChatId) ||
+    String(chatId) === cfg.managerChatId;
+
   return {
     id: String(payload.idMessage ?? ""),
     chatId,
-    phone,
-    name: String(sender.senderName || sender.chatName || phone),
+    phone: phoneDigits(phone),
+    name: String(sender.senderName || sender.chatName || phoneDigits(phone)),
     text,
     isGroup: chatId.endsWith("@g.us"),
-    fromManager: phone === managerPhone || chatId === cfg.managerChatId,
+    fromManager,
     rawType: type,
   };
 }

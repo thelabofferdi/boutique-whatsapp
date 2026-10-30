@@ -8,6 +8,7 @@ import { quoteDelivery } from "../src/shop/delivery.ts";
 import { checkOrderMath, extractAmounts, scanInjection, ungroundedAmounts, checkWhatsAppFormat } from "../src/agent/guardrails.ts";
 import { checkStock, prepareOrder, searchProducts, type ToolCtx } from "../src/tools/index.ts";
 import { loadConfig } from "../src/config.ts";
+import { parseGreenApi, samePhone } from "../src/channels/greenapi.ts";
 
 const cfg = loadConfig({ ...process.env, RODIUM_API_KEY: "test" });
 
@@ -151,4 +152,35 @@ test("outils : recherche, stock et devis chaînés sans LLM", async () => {
   assert.equal(quote.status, "brouillon");
   assert.equal(quote.total_xof, 18000 + 1500);
   assert.match(quote.warning, /DEVIS/);
+});
+
+
+test("Green API : une réponse en citation utilise la réponse, pas le texte cité", () => {
+  const payload = {
+    typeWebhook: "incomingMessageReceived",
+    idMessage: "M1",
+    senderData: { chatId: "22954959597@c.us", sender: "22954959597@c.us", senderName: "Client" },
+    messageData: {
+      typeMessage: "quotedMessage",
+      quotedMessage: { textMessage: "Bonjour et bienvenue chez Chez Maman Adjovi !" },
+      extendedTextMessageData: { text: "Oui je confirme" },
+    },
+  };
+  const msg = parseGreenApi(payload, cfg)!;
+  assert.equal(msg.text, "Oui je confirme");
+  assert.equal(msg.fromManager, false);
+});
+
+test("numéros béninois : 22949310966 et 2290149310966 sont la même ligne", () => {
+  assert.equal(samePhone("22949310966", "2290149310966"), true);
+  assert.equal(samePhone("+229 49 31 09 66", "2290149310966@c.us"), true);
+  assert.equal(samePhone("22954959597", "2290149310966"), false);
+  const payload = {
+    typeWebhook: "incomingMessageReceived",
+    idMessage: "M2",
+    senderData: { chatId: "2290149310966@c.us", sender: "2290149310966@c.us" },
+    messageData: { typeMessage: "textMessage", textMessageData: { textMessage: "OUI A7K2" } },
+  };
+  const mgrCfg = loadConfig({ ...process.env, RODIUM_API_KEY: "test", MANAGER_PHONE: "22949310966", MANAGER_CHAT_ID: "22949310966@c.us" });
+  assert.equal(parseGreenApi(payload, mgrCfg)!.fromManager, true);
 });
