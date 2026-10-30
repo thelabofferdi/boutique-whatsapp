@@ -1,0 +1,12 @@
+node_modules/
+.wrangler/
+.dev.vars
+.env
+.env.*
+!.env.example
+data/runtime/
+traces/*.jsonl
+traces/bench-*.json
+bench/results.json
+*.log
+.DS_Store

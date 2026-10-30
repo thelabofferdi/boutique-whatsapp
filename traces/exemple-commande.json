@@ -1,0 +1,520 @@
+{
+  "scenario": "Commande complète : livraison + euros + confirmation",
+  "at": "2026-10-30T08:10:30.144Z",
+  "model": "anthropic/claude-haiku-5-5",
+  "traces": [
+    {
+      "id": "88d8f0d6-4172-4fcd-b235-eea4022d55da",
+      "architecture": "solo",
+      "started_at": "2026-10-30T08:10:15.577Z",
+      "duration_ms": 11002,
+      "steps": [
+        {
+          "ms": 2816,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 1,
+            "messages": 2
+          },
+          "output": "(appel d'outils)",
+          "tokens_in": 4181,
+          "tokens_out": 206,
+          "agent": "vendeuse",
+          "n": 1,
+          "at": "2026-10-30T08:10:18.437Z"
+        },
+        {
+          "ms": 1,
+          "kind": "tool",
+          "name": "search_products",
+          "input": {
+            "query": "pagne Uniwax rouge",
+            "category": "pagne"
+          },
+          "output": {
+            "count": 6,
+            "results": [
+              {
+                "id": "PAG-002",
+                "name": "Pagne wax Uniwax 6 yards",
+                "category": "pagne",
+                "price_xof": 18000,
+                "colors": [
+                  "rouge",
+                  "jaune",
+                  "bleu"
+                ],
+                "description": "Wax Uniwax 6 yards, coton 100 %, idéal pour les tenues de tous les jours."
+              },
+              {
+                "id": "PAG-005",
+                "name": "Pagne kente ghanéen",
+                "category": "pagne",
+                "price_xof": 40000,
+                "colors": [
+                  "or",
+                  "noir",
+                  "rouge"
+                ],
+                "description": "Kente tissé à la main, pièce de cérémonie. Réassort prévu la semaine prochaine."
+              },
+              {
+                "id": "PAG-001",
+                "name": "Pagne wax Vlisco 6 yards",
+                "category": "pagne",
+                "price_xof": 35000,
+                "colors": [
+                  "indigo",
+                  "or",
+                  "vert"
+                ],
+                "description": "Wax hollandais véritable, 6 yards, motifs « fleurs de mariage ». Très demandé pour les cérémonies."
+              },
+              {
+                "id": "PAG-003",
+                "name": "Pagne wax Woodin 6 yards",
+                "category": "pagne",
+                "price_xof": 22000,
+                "colors": [
+                  "noir",
+                  "ocre",
+                  "turquoise"
+                ],
+                "description": "Woodin 6 yards, finitions soignées, couleurs qui ne déteignent pas."
+              },
+              {
+                "id": "PAG-004",
+                "name": "Pagne super wax 12 yards",
+                "category": "pagne",
+                "price_xof": 28000,
+                "colors": [
+                  "multicolore",
+                  "vert"
+                ],
+                "description": "Super wax 12 yards : deux pagnes de 6 yards, parfait pour une tenue complète."
+              },
+              {
+                "id": "PAG-006",
+                "name": "Tissu soie sauvage",
+                "category": "pagne",
+                "price_xof": 30000,
+                "colors": [
+                  "beige",
+                  "bordeaux",
+                  "bleu nuit"
+                ],
+                "description": "Soie sauvage pour grandes occasions, tombé fluide, 5 mètres."
+              }
+            ],
+            "stock_hint": "Le stock n'est pas dans ce résultat : appelle check_stock avant d'affirmer une disponibilité."
+          },
+          "agent": "vendeuse",
+          "n": 2,
+          "at": "2026-10-30T08:10:18.438Z"
+        },
+        {
+          "ms": 0,
+          "kind": "tool",
+          "name": "search_products",
+          "input": {
+            "query": "foulard or",
+            "category": "accessoire"
+          },
+          "output": {
+            "count": 1,
+            "results": [
+              {
+                "id": "ACC-004",
+                "name": "Foulard / gele",
+                "category": "accessoire",
+                "price_xof": 3500,
+                "colors": [
+                  "or",
+                  "rouge",
+                  "bleu",
+                  "vert"
+                ],
+                "description": "Foulard de tête assorti aux pagnes, plusieurs coloris."
+              }
+            ],
+            "stock_hint": "Le stock n'est pas dans ce résultat : appelle check_stock avant d'affirmer une disponibilité."
+          },
+          "agent": "vendeuse",
+          "n": 3,
+          "at": "2026-10-30T08:10:18.439Z"
+        },
+        {
+          "ms": 1895,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 2,
+            "messages": 5
+          },
+          "output": "(appel d'outils)",
+          "tokens_in": 5201,
+          "tokens_out": 267,
+          "agent": "vendeuse",
+          "n": 4,
+          "at": "2026-10-30T08:10:20.334Z"
+        },
+        {
+          "ms": 0,
+          "kind": "tool",
+          "name": "check_stock",
+          "input": {
+            "product_id": "PAG-002",
+            "quantity": 1
+          },
+          "output": {
+            "product_id": "PAG-002",
+            "name": "Pagne wax Uniwax 6 yards",
+            "stock": 12,
+            "reserved": 0,
+            "available": 12,
+            "unit_price_xof": 18000,
+            "in_stock": true,
+            "requested": 1,
+            "enough": true,
+            "alternatives": [],
+            "message": "Disponible."
+          },
+          "agent": "vendeuse",
+          "n": 5,
+          "at": "2026-10-30T08:10:20.334Z"
+        },
+        {
+          "ms": 0,
+          "kind": "tool",
+          "name": "check_stock",
+          "input": {
+            "product_id": "ACC-004",
+            "quantity": 2
+          },
+          "output": {
+            "product_id": "ACC-004",
+            "name": "Foulard / gele",
+            "stock": 20,
+            "reserved": 0,
+            "available": 20,
+            "unit_price_xof": 3500,
+            "in_stock": true,
+            "requested": 2,
+            "enough": true,
+            "alternatives": [],
+            "message": "Disponible."
+          },
+          "agent": "vendeuse",
+          "n": 6,
+          "at": "2026-10-30T08:10:20.334Z"
+        },
+        {
+          "ms": 1,
+          "kind": "tool",
+          "name": "quote_delivery",
+          "input": {
+            "zone": "cotonou_peripherie",
+            "items": [
+              {
+                "product_id": "PAG-002",
+                "quantity": 1
+              },
+              {
+                "product_id": "ACC-004",
+                "quantity": 2
+              }
+            ]
+          },
+          "output": {
+            "zone": "cotonou_peripherie",
+            "label": "Cotonou périphérie (Akpakpa, Fidjrossè, Ladji, Zogbo)",
+            "fee_xof": 1500,
+            "eta": "Livraison aujourd'hui ou demain matin",
+            "free": false,
+            "subtotal_xof": 25000,
+            "total_xof": 26500,
+            "weight_kg": 1.4,
+            "message": "Livraison Cotonou périphérie (Akpakpa, Fidjrossè, Ladji, Zogbo) : 1500 FCFA. Total articles + livraison : 26500 FCFA."
+          },
+          "agent": "vendeuse",
+          "n": 7,
+          "at": "2026-10-30T08:10:20.335Z"
+        },
+        {
+          "ms": 2605,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 3,
+            "messages": 9
+          },
+          "output": "(appel d'outils)",
+          "tokens_in": 5947,
+          "tokens_out": 412,
+          "agent": "vendeuse",
+          "n": 8,
+          "at": "2026-10-30T08:10:22.940Z"
+        },
+        {
+          "ms": 519,
+          "kind": "tool",
+          "name": "convert_currency",
+          "input": {
+            "amount_xof": 26500,
+            "currency": "EUR"
+          },
+          "output": {
+            "amount_xof": 26500,
+            "currency": "EUR",
+            "amount": 40.39,
+            "rate": 0.001524,
+            "as_of": "Fri, 30 Oct 2026 00:02:31 +0000",
+            "source": "open.er-api.com"
+          },
+          "agent": "vendeuse",
+          "n": 9,
+          "at": "2026-10-30T08:10:23.460Z"
+        },
+        {
+          "ms": 2,
+          "kind": "tool",
+          "name": "prepare_order",
+          "input": {
+            "items": [
+              {
+                "product_id": "PAG-002",
+                "quantity": 1
+              },
+              {
+                "product_id": "ACC-004",
+                "quantity": 2
+              }
+            ],
+            "zone": "cotonou_peripherie",
+            "currency": "EUR"
+          },
+          "output": {
+            "order_id": "CMD-20261030-2TDW",
+            "code": "VCS6",
+            "status": "brouillon",
+            "customer": "Awa Dossou",
+            "phone": "97000000",
+            "zone": "cotonou_peripherie",
+            "lines": [
+              {
+                "product_id": "PAG-002",
+                "name": "Pagne wax Uniwax 6 yards",
+                "quantity": 1,
+                "unit_price_xof": 18000,
+                "line_total_xof": 18000
+              },
+              {
+                "product_id": "ACC-004",
+                "name": "Foulard / gele",
+                "quantity": 2,
+                "unit_price_xof": 3500,
+                "line_total_xof": 7000
+              }
+            ],
+            "subtotal_xof": 25000,
+            "delivery_xof": 1500,
+            "total_xof": 26500,
+            "currency": "EUR",
+            "total_converted": 40.39,
+            "rate_used": 0.001524,
+            "reserved_until": "2026-10-30T08:40:23.461Z",
+            "shop": "Chez Maman Adjovi",
+            "warning": "DEVIS, pas encore une commande. Résume-le au client et demande-lui de répondre OUI pour confirmer.",
+            "expires_in_minutes": 30
+          },
+          "agent": "vendeuse",
+          "n": 10,
+          "at": "2026-10-30T08:10:23.462Z"
+        },
+        {
+          "ms": 3113,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 4,
+            "messages": 12
+          },
+          "output": "Voici votre devis, Chez Maman Adjovi :\n\n👗 1 pagne wax Uniwax 6 yards (rouge) : 18 000 FCFA\n🧵 2 foulards or : 7 000 FCFA\n🚚 Livraison Fidjrossè : 1 500 FCFA\n*Total : 26 500 FCFA*, soit environ *40,39 €*\n\nCode de commande : *VCS6*. Les articles sont réservés 30 minutes.\n\nRéponds *OUI* pour confirmer. La gérante validera ensuite la commande.",
+          "tokens_in": 6656,
+          "tokens_out": 315,
+          "agent": "vendeuse",
+          "n": 11,
+          "at": "2026-10-30T08:10:26.575Z"
+        }
+      ],
+      "tokens_in": 21985,
+      "tokens_out": 1200,
+      "cost_rodi": 2.1182245,
+      "cost_xof": 12.709347000000001,
+      "reply": "Voici votre devis, Chez Maman Adjovi :\n\n👗 1 pagne wax Uniwax 6 yards (rouge) : 18 000 FCFA\n🧵 2 foulards or : 7 000 FCFA\n🚚 Livraison Fidjrossè : 1 500 FCFA\n*Total : 26 500 FCFA*, soit environ *40,39 €*\n\nCode de commande : *VCS6*. Les articles sont réservés 30 minutes.\n\nRéponds *OUI* pour confirmer. La gérante validera ensuite la commande.",
+      "checks": [
+        {
+          "name": "outils_chainés",
+          "ok": true,
+          "detail": "7 outil(s) : search_products → search_products → check_stock → check_stock → quote_delivery → convert_currency → prepare_order"
+        },
+        {
+          "name": "format_whatsapp",
+          "ok": true,
+          "detail": "format WhatsApp respecté"
+        },
+        {
+          "name": "réponse_complète",
+          "ok": true,
+          "detail": "342 caractères"
+        },
+        {
+          "name": "aucun_montant_inventé",
+          "ok": true,
+          "detail": "tous les montants viennent des outils"
+        },
+        {
+          "name": "total_articles+livraison",
+          "ok": true,
+          "detail": "VCS6: 25000 + 1500 = 26500 FCFA"
+        },
+        {
+          "name": "validation_gérante",
+          "ok": true,
+          "detail": "aucune commande validée sans la gérante (normal : elle valide depuis son WhatsApp)"
+        },
+        {
+          "name": "accord_client",
+          "ok": true,
+          "detail": "pas de confirmation client"
+        }
+      ]
+    },
+    {
+      "id": "e7cb8cb0-4145-4f36-ad34-c751d753f01d",
+      "architecture": "solo",
+      "started_at": "2026-10-30T08:10:26.581Z",
+      "duration_ms": 3560,
+      "steps": [
+        {
+          "ms": 2108,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 1,
+            "messages": 4
+          },
+          "output": "(appel d'outils)",
+          "tokens_in": 4576,
+          "tokens_out": 295,
+          "agent": "vendeuse",
+          "n": 12,
+          "at": "2026-10-30T08:10:28.689Z"
+        },
+        {
+          "ms": 14,
+          "kind": "tool",
+          "name": "confirm_order",
+          "input": {
+            "order_id": "VCS6",
+            "customer_consent": true
+          },
+          "output": {
+            "order_id": "CMD-20261030-2TDW",
+            "code": "VCS6",
+            "status": "attente_gerante",
+            "customer": "Awa Dossou",
+            "phone": "97000000",
+            "zone": "cotonou_peripherie",
+            "lines": [
+              {
+                "product_id": "PAG-002",
+                "name": "Pagne wax Uniwax 6 yards",
+                "quantity": 1,
+                "unit_price_xof": 18000,
+                "line_total_xof": 18000
+              },
+              {
+                "product_id": "ACC-004",
+                "name": "Foulard / gele",
+                "quantity": 2,
+                "unit_price_xof": 3500,
+                "line_total_xof": 7000
+              }
+            ],
+            "subtotal_xof": 25000,
+            "delivery_xof": 1500,
+            "total_xof": 26500,
+            "currency": "EUR",
+            "total_converted": 40.39,
+            "rate_used": 0.001524,
+            "reserved_until": "2026-10-30T08:40:23.461Z",
+            "shop": "Chez Maman Adjovi",
+            "message": "Commande transmise à la gérante. Le client doit être prévenu que la validation est en cours."
+          },
+          "agent": "vendeuse",
+          "n": 13,
+          "at": "2026-10-30T08:10:28.703Z"
+        },
+        {
+          "ms": 1437,
+          "kind": "llm",
+          "name": "vendeuse",
+          "input": {
+            "step": 2,
+            "messages": 6
+          },
+          "output": "Merci, votre commande est bien enregistrée ! ✅\n\nCode : *VCS6*\nTotal : *26 500 FCFA* (environ 40,39 €)\nLivraison : Fidjrossè\n\nLa gérante doit maintenant valider la commande. Vous recevrez la confirmation dès qu'elle l'aura fait. Gardez bien le code *VCS6*.",
+          "tokens_in": 4989,
+          "tokens_out": 128,
+          "agent": "vendeuse",
+          "n": 14,
+          "at": "2026-10-30T08:10:30.141Z"
+        }
+      ],
+      "tokens_in": 9565,
+      "tokens_out": 423,
+      "cost_rodi": 0.8840914000000001,
+      "cost_xof": 5.304548400000001,
+      "reply": "Merci, votre commande est bien enregistrée ! ✅\n\nCode : *VCS6*\nTotal : *26 500 FCFA* (environ 40,39 €)\nLivraison : Fidjrossè\n\nLa gérante doit maintenant valider la commande. Vous recevrez la confirmation dès qu'elle l'aura fait. Gardez bien le code *VCS6*.",
+      "checks": [
+        {
+          "name": "outils_chainés",
+          "ok": true,
+          "detail": "1 outil(s) : confirm_order"
+        },
+        {
+          "name": "format_whatsapp",
+          "ok": true,
+          "detail": "format WhatsApp respecté"
+        },
+        {
+          "name": "réponse_complète",
+          "ok": true,
+          "detail": "255 caractères"
+        },
+        {
+          "name": "aucun_montant_inventé",
+          "ok": true,
+          "detail": "tous les montants viennent des outils"
+        },
+        {
+          "name": "total_articles+livraison",
+          "ok": true,
+          "detail": "VCS6: 25000 + 1500 = 26500 FCFA"
+        },
+        {
+          "name": "validation_gérante",
+          "ok": true,
+          "detail": "aucune commande validée sans la gérante (normal : elle valide depuis son WhatsApp)"
+        },
+        {
+          "name": "accord_client",
+          "ok": true,
+          "detail": "client a confirmé (VCS6)"
+        }
+      ]
+    }
+  ]
+}

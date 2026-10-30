@@ -1,0 +1,20 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "boutique-whatsapp",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-10-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "observability": { "enabled": true },
+  "durable_objects": {
+    "bindings": [{ "name": "SHOP", "class_name": "ShopDO" }]
+  },
+  "migrations": [{ "tag": "v1", "new_sqlite_classes": ["ShopDO"] }],
+  "rules": [{ "type": "Text", "globs": ["src/web/*.html"], "fallthrough": true }],
+  "vars": {
+    "SHOP_NAME": "Chez Maman Adjovi",
+    "SHOP_CITY": "Cotonou",
+    "MANAGER_CHAT_ID": "22990000001@c.us",
+    "SIMULATOR": "0",
+    "AGENT_MODE": "solo"
+  }
+}
