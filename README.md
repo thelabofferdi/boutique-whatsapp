@@ -205,6 +205,21 @@ et le traitement continue dans `ctx.waitUntil`.
 - **Fuite de secrets** : aucune clé dans le code, tout en secrets Wrangler ; `.env` non versionné.
 - **Démo isolée** : les conversations de démonstration (`22997000000…`) ne partent jamais sur WhatsApp.
 
+### 7.2 bis Couper / rallumer les réponses WhatsApp
+
+Le numéro de test (+229 67 41 54 02) est un vrai WhatsApp : sans garde-fou, le bot répond aussi aux
+conversations personnelles. Un interrupteur permet de couper net, **sans redéploiement** — il agit sur
+Green API (`incomingWebhook`), donc il survit aux déploiements du Worker :
+
+```bash
+npm run whatsapp -- status   # état actuel
+npm run whatsapp -- pause    # coupe : plus aucune réponse (le Worker n'est même pas appelé)
+npm run whatsapp -- resume   # rallume
+```
+
+Pour un vrai déploiement client, utiliser un **numéro WhatsApp dédié à la boutique** (jamais un numéro
+personnel) et garder `pause` pour les interruptions.
+
 ### 7.3 Preuve en production (30/10/2026)
 
 Commande réelle **G4U8** (26 500 FCFA) passée sur le Worker déployé :

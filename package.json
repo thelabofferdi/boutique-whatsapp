@@ -12,7 +12,8 @@
     "bench": "node src/cli.ts bench",
     "test": "node --test tests/*.test.ts",
     "typecheck": "tsc --noEmit",
-    "screenshot": "node scripts/screenshot.mjs"
+    "screenshot": "node scripts/screenshot.mjs",
+    "whatsapp": "node scripts/whatsapp.mjs"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
