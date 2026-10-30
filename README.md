@@ -104,7 +104,7 @@ WhatsApp client ──► Green API ──► POST /webhook/greenapi (réponse 2
 ```bash
 cp .env.example .env          # RODIUM_API_KEY + (option) Green API
 npm install
-npm test                      # 11 tests métier, sans LLM
+npm test                      # 14 tests métier, sans LLM
 npm run chat -- --mode solo   # conversation réelle dans le terminal
 npm run demo -- --mode equipe # scénario complet + trace JSON
 npm run bench                 # comparaison solo vs équipe (5 scénarios)
@@ -218,6 +218,17 @@ Commande réelle **G4U8** (26 500 FCFA) passée sur le Worker déployé :
 | 08:58:22 | validation gérante → commande confirmée, client prévenu |
 | 08:58:22 | stock décrémenté : PAG-002 12 → 11, ACC-004 20 → 18 |
 
+Deuxième commande, **NPBK** (35 000 FCFA, pagne Vlisco indigo, livraison Cotonou centre offerte), validée depuis
+le téléphone de la gérante sans passer par l'interface :
+
+| Heure (UTC) | Événement |
+|---|---|
+| 09:00:43 | devis créé, code **NPBK**, total 35 000 FCFA / 53,34 € |
+| 09:00:50 | le client répond `Oui je confirme` |
+| 09:00:54 | notification WhatsApp envoyée à la gérante (`OUI NPBK` / `NON NPBK`) |
+| 09:02:52 | la gérante répond `OUI NPBK` depuis son téléphone → commande `confirmee` |
+| 09:02:52 | client prévenu, gérante reçoit « NPBK validée », stock PAG-001 4 → 3 |
+
 Captures :
 
 | Étape | Capture |
@@ -225,10 +236,12 @@ Captures :
 | Conversation WhatsApp réelle avec le bot | ![](docs/captures/whatsapp/client-01-conversation.png) |
 | Devis + demande de validation reçue par la gérante | ![](docs/captures/whatsapp/gerante-01-demande-devis.png) |
 | Commande validée et confirmation client | ![](docs/captures/whatsapp/gerante-02-commande-confirmee.png) |
-| Vue d'ensemble de l'interface (client + gérante) | ![](docs/captures/03-attente-gerante.png) |
+| Commande NPBK en attente de la gérante (état réel du Worker) | ![](docs/captures/06-npbk-attente-gerante.png) |
+| Commande NPBK confirmée après `OUI NPBK` | ![](docs/captures/07-npbk-confirmee.png) |
 
-> Les deux dernières captures montrent l'interface de démonstration qui reflète le même état que WhatsApp
-> (même Worker, même Durable Object). La première est une vraie conversation WhatsApp avec le numéro de test.
+> Les captures 06 et 07 montrent l'interface qui lit l'état réel du Durable Object de production (le message
+> client de la commande NPBK y apparaît tel qu'il a été reçu par le webhook Green API). Les trois premières sont
+> de vraies conversations WhatsApp avec le numéro de test.
 
 ## 8. Traces
 
@@ -272,7 +285,7 @@ src/
     file.ts           stockage JSON local (palier 2)
   bench/              5 scénarios + rapport
   web/index.html      UI WhatsApp (client + gérante)
-tests/                11 tests métier (node:test)
+tests/                14 tests métier (node:test)
 traces/               traces d'exemple
 docs/captures/        captures d'écran
 ```
@@ -280,8 +293,9 @@ docs/captures/        captures d'écran
 ## 11. Tests
 
 ```bash
-npm test        # 11/11 : livraison, total, réservation, consentement, idempotence,
-                #          anti-doublon, montants inventés, format, injections, outils
+npm test        # 14/14 : livraison, total, réservation, consentement, idempotence,
+                #          anti-doublon, montants inventés, format, injections, outils,
+                #          réponses en citation, numéros béninois, couleur du devis
 ```
 
 ## 12. Comptes de test

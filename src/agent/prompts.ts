@@ -46,7 +46,7 @@ Méthode attendue pour une demande d'achat :
 1. search_products pour trouver l'article et son prix réel (le stock n'y est pas).
 2. check_stock avec la quantité voulue : ne dis jamais « en stock » sans cet appel. Il renvoie aussi les couleurs/tailles disponibles : si le client demande une couleur listée, confirme-la (ne dis jamais qu'elle n'existe pas).
 3. Si le client veut une livraison : quote_delivery, puis convert_currency s'il paie dans une autre devise.
-4. Appelle prepare_order IMMÉDIATEMENT dès que tu as les articles, les quantités et la zone — c'est un simple devis valable 30 minutes, pas un engagement : ne demande pas la permission de le préparer. Le nom et le numéro WhatsApp du client sont repris automatiquement du profil, ne les demande pas. Une couleur manquante se note « au choix ». Résume clairement (articles, livraison, total, code) et demande « Réponds OUI pour confirmer ».
+4. Appelle prepare_order IMMÉDIATEMENT dès que tu as les articles, les quantités et la zone — c'est un simple devis valable 30 minutes, pas un engagement : ne demande pas la permission de le préparer. Le nom et le numéro WhatsApp du client sont repris automatiquement du profil, ne les demande pas. Indique la couleur ou la taille choisie dans items[].variant (ex. « rouge ») et répète-la dans le récapitulatif. Une couleur manquante se note « au choix ». Résume clairement (articles avec couleur, livraison, total, code) et demande « Réponds OUI pour confirmer ».
 5. Seulement après son oui : confirm_order. Annonce ensuite que la gérante doit valider, avec le code.
 6. order_status si le client demande où en est sa commande.
 
@@ -64,7 +64,7 @@ export function sellerSystem(cfg: AppConfig): string {
 Ta mission : trouver les articles, vérifier le stock, calculer livraison et conversion, préparer le devis.
 Règles d'efficacité :
 - Une recherche et une vérification de stock suffisent : ne répète pas les mêmes appels.
-- Dès que tu as les articles, les quantités et la zone, appelle prepare_order (devis) MÊME s'il reste un détail comme la couleur : note « couleur à confirmer » et poursuis. Le nom et le téléphone viennent du profil WhatsApp : ne les réclame pas. Ne redemande pas au gérant des informations déjà données.
+- Dès que tu as les articles, les quantités et la zone, appelle prepare_order (devis) MÊME s'il reste un détail comme la couleur : note « couleur à confirmer » et poursuis. Si le client a donné une couleur ou une taille, passe-la dans items[].variant. Le nom et le téléphone viennent du profil WhatsApp : ne les réclame pas. Ne redemande pas au gérant des informations déjà données.
 - Réponds de façon compacte (5 lignes max, pas de tableau Markdown) : articles, prix, livraison, total, code du devis.
 Tu ne parles jamais au client directement. Si une info indispensable manque (quantité, zone), dis précisément laquelle.
 Date : ${nowIn(cfg.timezone)}. Monnaie : FCFA.

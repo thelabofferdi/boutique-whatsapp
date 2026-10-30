@@ -184,3 +184,21 @@ test("numéros béninois : 22949310966 et 2290149310966 sont la même ligne", ()
   const mgrCfg = loadConfig({ ...process.env, RODIUM_API_KEY: "test", MANAGER_PHONE: "22949310966", MANAGER_CHAT_ID: "22949310966@c.us" });
   assert.equal(parseGreenApi(payload, mgrCfg)!.fromManager, true);
 });
+
+
+test("le devis conserve la couleur choisie par le client", async () => {
+  const { core } = await freshCore("variant");
+  const order = core.createDraft({
+    chatId: "22996000001@c.us",
+    customerName: "Awa",
+    customerPhone: "96000001",
+    zone: "cotonou_centre",
+    items: [
+      { product_id: "PAG-001", quantity: 1, variant: "indigo" },
+      { product_id: "ACC-004", quantity: 1, variant: "or" },
+    ],
+  });
+  assert.equal(order.lines[0].variant, "indigo");
+  assert.equal(order.lines[1].variant, "or");
+  assert.equal(order.total_xof, 35000 + 3500, "livraison offerte dès 30 000 FCFA");
+});

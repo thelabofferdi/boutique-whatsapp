@@ -20,6 +20,8 @@ export type OrderLine = {
   quantity: number;
   unit_price_xof: number;
   line_total_xof: number;
+  /** Couleur ou taille choisie par le client, telle qu'il l'a dite. */
+  variant?: string;
 };
 
 export type OrderStatus =

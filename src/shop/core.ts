@@ -176,7 +176,7 @@ export class ShopCore {
     customerName: string;
     customerPhone: string;
     zone: string;
-    items: { product_id: string; quantity: number }[];
+    items: { product_id: string; quantity: number; variant?: string }[];
     currency?: string;
     rate?: number;
   }): Order {
@@ -195,12 +195,14 @@ export class ShopCore {
             : `Seulement ${avail} ${p.name} disponible(s) (${qty} demandé(s)).`,
         );
       }
+      const variant = typeof it.variant === "string" ? it.variant.trim().slice(0, 40) : "";
       return {
         product_id: p.id,
         name: p.name,
         quantity: qty,
         unit_price_xof: p.price_xof,
         line_total_xof: p.price_xof * qty,
+        ...(variant ? { variant } : {}),
         _weight: p.unit_weight_kg * qty,
       };
     });

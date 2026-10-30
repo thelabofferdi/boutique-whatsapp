@@ -47,6 +47,7 @@ const itemSchema = {
     {
       product_id: S("Identifiant produit, ex. PAG-002"),
       quantity: N("Quantité (entier ≥ 1)"),
+      variant: S("Couleur ou taille demandée par le client (ex. rouge, XL). Omets si le client n'a pas choisi."),
     },
     ["product_id", "quantity"],
   ),
@@ -72,7 +73,7 @@ export function orderSummary(o: Order, cfg: AppConfig) {
     customer: o.customer_name,
     phone: o.customer_phone,
     zone: o.zone,
-    lines: o.lines.map((l) => ({ product_id: l.product_id, name: l.name, quantity: l.quantity, unit_price_xof: l.unit_price_xof, line_total_xof: l.line_total_xof })),
+    lines: o.lines.map((l) => ({ product_id: l.product_id, name: l.name, quantity: l.quantity, variant: l.variant ?? null, unit_price_xof: l.unit_price_xof, line_total_xof: l.line_total_xof })),
     subtotal_xof: o.subtotal_xof,
     delivery_xof: o.delivery_xof,
     total_xof: o.total_xof,
@@ -209,9 +210,10 @@ export const prepareOrder: ToolDef = {
   ),
   async execute(args, ctx) {
     const currency = String(args.currency ?? "XOF").toUpperCase();
-    const items = (args.items as { product_id: string; quantity: number }[]).map((it) => ({
+    const items = (args.items as { product_id: string; quantity: number; variant?: string }[]).map((it) => ({
       product_id: String(it.product_id),
       quantity: Math.floor(Number(it.quantity)),
+      variant: clean(it.variant) || undefined,
     }));
     let rate: number | undefined;
     if (currency !== "XOF") {
@@ -256,7 +258,7 @@ export const confirmOrder: ToolDef = {
       `🧾 *Nouvelle commande à valider*`,
       `Code : *${order.code}* (${order.id})`,
       `Client : ${order.customer_name} — ${order.customer_phone}`,
-      ...order.lines.map((l) => `• ${l.quantity} × ${l.name} = ${fmtXof(l.line_total_xof)} FCFA`),
+      ...order.lines.map((l) => `• ${l.quantity} × ${l.name}${l.variant ? ` (${l.variant})` : ""} = ${fmtXof(l.line_total_xof)} FCFA`),
       `Sous-total : ${fmtXof(order.subtotal_xof)} FCFA`,
       `Livraison (${order.zone}) : ${fmtXof(order.delivery_xof)} FCFA`,
       `*TOTAL : ${fmtXof(order.total_xof)} FCFA*`,
