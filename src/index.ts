@@ -57,7 +57,10 @@ async function processIncoming(env: Env, cfg: AppConfig, shop: RemoteShopApi, pa
   if (msg.id && (await shop.isDuplicate(msg.id))) return;
 
   const delivery = deliveryFor(env, cfg, shop);
-  if (msg.fromManager) {
+  // Une commande gérante doit contenir le code : « OUI A7K2 » / « NON A7K2 ».
+  // Un simple « oui » reste un message client et suit le flux normal.
+  const isManagerCommand = msg.fromManager && /^\s*(oui|non|ok|valide|confirme|refuse|annule)\s*[:\-]?\s+[A-Z0-9]{4,}\s*$/i.test(msg.text);
+  if (isManagerCommand) {
     await shop.pushOutbox(cfg.managerChatId, msg.text, "gerante", "in");
     await handleManagerReply({ cfg, shop, text: msg.text, delivery, from: msg.phone });
     return;

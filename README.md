@@ -7,7 +7,8 @@ jamais rien sans le client puis la gérante**.
 - **Dépôt GitHub** : <https://github.com/thelabofferdi/boutique-whatsapp>
 - **Worker en production** : <https://boutique-whatsapp.enarilab.workers.dev>
 - **Démo navigateur** (client + téléphone de la gérante) : <https://boutique-whatsapp.enarilab.workers.dev/>
-- **WhatsApp de test** : +229 67 41 54 02 (instance Green API `710722785504`, webhook actif)
+- **WhatsApp de test (boutique)** : +229 67 41 54 02 (instance Green API `710722785504`, webhook actif)
+- **WhatsApp gérante (test)** : +229 49 31 09 66 — valide les commandes avec `OUI <code>`
 
 | Palier | Ce qui est livré | Preuve |
 |---|---|---|
@@ -274,5 +275,7 @@ npm test        # 11/11 : livraison, total, réservation, consentement, idempote
 ## 12. Comptes de test
 
 - RodiumAI : clé `rd_sk_…` (secrets Wrangler, jamais dans le dépôt).
-- Green API : instance `710722785504` (numéro de test), `apiUrl = https://7107.api.green-api.com`.
+- Green API : instance `710722785504` (boutique +229 67 41 54 02), `apiUrl = https://7107.api.green-api.com`.
+- Gérante de test : +229 49 31 09 66 (`MANAGER_CHAT_ID`). En production, utiliser un numéro distinct de celui des clients :
+  une commande gérante n'est reconnue que si elle contient le code (`OUI A7K2`).
 - Aucun client réel n'est contacté par la démo.
