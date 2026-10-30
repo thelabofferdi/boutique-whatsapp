@@ -4,6 +4,7 @@ Agent IA qui vend les pagnes et accessoires de **Chez Maman Adjovi** (marché Da
 il renseigne, vérifie le stock, calcule la livraison, convertit les prix, prépare les commandes — et **ne valide
 jamais rien sans le client puis la gérante**.
 
+- **Dépôt GitHub** : <https://github.com/thelabofferdi/boutique-whatsapp>
 - **Worker en production** : <https://boutique-whatsapp.enarilab.workers.dev>
 - **Démo navigateur** (client + téléphone de la gérante) : <https://boutique-whatsapp.enarilab.workers.dev/>
 - **WhatsApp de test** : +229 67 41 54 02 (instance Green API `710722785504`, webhook actif)
